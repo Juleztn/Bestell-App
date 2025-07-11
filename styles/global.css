@@ -3,3 +3,12 @@
     font-family: 'Roboto';
     scroll-behavior: smooth;
 }
+
+h1 {
+    margin-bottom: 16px;
+    font-size: 32px;
+}
+
+h2 {
+    margin-bottom: 16px;
+}
