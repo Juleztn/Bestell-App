@@ -2,10 +2,11 @@ let pickupBtn = document.getElementById('pickup');
 let deliveryBtn = document.getElementById('delivery');
 let bicycle = document.getElementById('bicycle-img');
 let hand = document.getElementById('hand-img');
-let deliveryOrLocation = document.getElementById('delivery-costs_location');
 
 function init() {
     renderDeliveryCosts();
+    renderCategories();
+    renderMeals();
 }
 
 function changeDeliveryBtn() {
