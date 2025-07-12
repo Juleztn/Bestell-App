@@ -1,0 +1,30 @@
+button {
+    cursor: pointer;
+    padding: 14px 22px;
+    border-radius: 40px;
+    border: none;
+    display: flex;
+    gap: 5px;
+    background-color: #E5E4E1;
+}
+
+button:hover {
+    background-color: #cfcecc;
+}
+
+button img {
+    height: 16px;
+}
+
+header {
+    background-color: #FF8000;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 5px 10px 1px #bfbfbf;
+}
+
+header img {
+    width: 150px;
+}
