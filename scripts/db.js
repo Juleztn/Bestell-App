@@ -98,3 +98,5 @@ let meals = {
         }
     ]
 }
+
+let basket = {};

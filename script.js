@@ -7,6 +7,7 @@ function init() {
     renderDeliveryCosts();
     renderCategories();
     renderMeals();
+    renderBasket();
 }
 
 function changeDeliveryBtn() {
