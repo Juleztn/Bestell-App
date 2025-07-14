@@ -99,4 +99,4 @@ let meals = {
     ]
 }
 
-let basket = {};
+let basket = [];

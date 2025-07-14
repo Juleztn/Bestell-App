@@ -2,8 +2,10 @@ let pickupBtn = document.getElementById('pickup');
 let deliveryBtn = document.getElementById('delivery');
 let bicycle = document.getElementById('bicycle-img');
 let hand = document.getElementById('hand-img');
+let mealAmount = document.getElementsByClassName('meal-amount');
 
 function init() {
+    getFromLocalStorage();
     renderDeliveryCosts();
     renderCategories();
     renderMeals();
@@ -24,4 +26,26 @@ function changePickupBtn() {
     bicycle.src = "./assets/icons/bicycle-solid.svg";
     hand.src = "./assets/icons/hand-holding-heart-solid-orange.svg";
     renderLocation();
+}
+
+function moveToBasket(iCat, iMeals) {
+    basket.push(meals.categories[iCat].items[iMeals]);
+    saveToLocalStorage();
+    renderBasket();
+}
+
+function saveToLocalStorage() {
+    localStorage.setItem("basket", JSON.stringify(basket));
+}
+
+function getFromLocalStorage() {
+    let myArr = JSON.parse(localStorage.getItem("basket"));
+
+    if (myArr != null) {
+        basket = myArr;
+    }
+}
+
+function plusMealAmount(iBasket) {
+    mealAmount[iBasket].innerHTML + 1;
 }

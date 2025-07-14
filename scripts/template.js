@@ -4,6 +4,7 @@ let mealsContent = document.getElementById('meals');
 let mealCategory = document.getElementById('meal-category');
 let basketContent = document.getElementById('basket-content');
 
+
 function renderDeliveryCosts() {
     deliveryOrLocation.innerHTML = `
         <img src="./assets/icons/bicycle-solid.svg">
@@ -36,7 +37,7 @@ function renderMeals() {
         for (let iMeals = 0; iMeals < meals.categories[iCat].items.length; iMeals++) {
             let item = meals.categories[iCat].items[iMeals];
             mealsContent.innerHTML += `
-                <div class="meals">
+                <div onclick="moveToBasket(${iCat}, ${iMeals})" class="meals">
                     <div class="meal-info">
                         <h3>${item.name}</h3>
                         <p>${item.price.toFixed(2)} €</p>
@@ -61,11 +62,35 @@ function renderMealImage(iCat, iMeals) {
 }
 
 function renderBasket() {
-    if (basket.length == null) {
+    getFromLocalStorage();
+    if (Object.keys(basket).length == 0) {
         basketContent.innerHTML = `
-            <img src="./assets/icons/basket.svg">
-            <h2>Fülle deinen Warenkorb</h2>
-            <p>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.</p>
+            <div class="basket-empty">
+                <img class="basket-image" src="./assets/icons/basket.svg">
+                <h2>Fülle deinen Warenkorb</h2>
+                <p>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.</p>
+            </div>
         `;
+    } else {
+        basketContent.innerHTML = "";
+        for (let iBasket = 0; iBasket < basket.length; iBasket++) {
+        basketContent.innerHTML += `
+            <div class="basket-meals">
+                <div class="basket-meal-info">
+                    <b><p>${basket[iBasket].name}</p></b>
+                    <p>${basket[iBasket].price.toFixed(2)} €</p>
+                </div>
+                <div class="basket-amount">
+                    <img src="./assets/icons/minus-solid.svg" alt="Minus">
+                    <p class="meal-amount">${renderMealAmount()}</p>
+                    <img onclick="plusMealAmount(${iBasket})" src="./assets/icons/plus-solid.svg" alt="Plus">
+                </div>
+            </div>
+        `;            
+        }
     }
+}
+
+function renderMealAmount() {
+    return "1";
 }
