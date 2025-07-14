@@ -4,6 +4,7 @@ let bicycle = document.getElementById('bicycle-img');
 let hand = document.getElementById('hand-img');
 let mealAmount = document.getElementsByClassName('meal-amount');
 
+
 function init() {
     getFromLocalStorage();
     renderDeliveryCosts();
@@ -47,5 +48,17 @@ function getFromLocalStorage() {
 }
 
 function plusMealAmount(iBasket) {
-    mealAmount[iBasket].innerHTML + 1;
+    let amount = parseInt(mealAmount[iBasket].innerHTML);
+    mealAmount[iBasket].innerHTML = amount + 1;
+    if (mealAmount[iBasket].innerHTML > 1) {
+        minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
+    }
+}
+
+function minusMealAmount(iBasket) {
+    amount = parseInt(mealAmount[iBasket].innerHTML);
+    mealAmount[iBasket].innerHTML = amount - 1;
+    if (mealAmount[iBasket].innerHTML == 1) {
+        minusTrash[iBasket].innerHTML = `<img src="./assets/icons/trash-solid.svg" alt="">`;
+    }
 }

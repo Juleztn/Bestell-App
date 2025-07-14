@@ -3,6 +3,7 @@ let categories = document.getElementById('categories');
 let mealsContent = document.getElementById('meals');
 let mealCategory = document.getElementById('meal-category');
 let basketContent = document.getElementById('basket-content');
+let minusTrash = document.getElementsByClassName('minus-trash');
 
 
 function renderDeliveryCosts() {
@@ -74,23 +75,19 @@ function renderBasket() {
     } else {
         basketContent.innerHTML = "";
         for (let iBasket = 0; iBasket < basket.length; iBasket++) {
-        basketContent.innerHTML += `
+            basketContent.innerHTML += `
             <div class="basket-meals">
                 <div class="basket-meal-info">
                     <b><p>${basket[iBasket].name}</p></b>
                     <p>${basket[iBasket].price.toFixed(2)} €</p>
                 </div>
                 <div class="basket-amount">
-                    <img src="./assets/icons/minus-solid.svg" alt="Minus">
-                    <p class="meal-amount">${renderMealAmount()}</p>
+                <div class="minus-trash" onclick="minusMealAmount(${iBasket})"><img src="./assets/icons/trash-solid.svg" alt=""></div>
+                    <p class="meal-amount">1</p>
                     <img onclick="plusMealAmount(${iBasket})" src="./assets/icons/plus-solid.svg" alt="Plus">
                 </div>
             </div>
-        `;            
+        `;
         }
     }
-}
-
-function renderMealAmount() {
-    return "1";
 }
