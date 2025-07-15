@@ -4,7 +4,8 @@ let mealsContent = document.getElementById('meals');
 let mealCategory = document.getElementById('meal-category');
 let basketContent = document.getElementById('basket-content');
 let minusTrash = document.getElementsByClassName('minus-trash');
-let basketCosts = document.getElementById('basket-costs');
+let basketSubtotalTemplate = document.getElementById('basket-subtotal');
+let basketTotalTemplate = document.getElementById('basket-total');
 
 
 function renderDeliveryCosts() {
@@ -92,16 +93,27 @@ function renderBasket() {
     }
 }
 
-function renderBasketCosts() {
+function renderBasketSubtotal() {
     if (Object.keys(basket).length == 0) {
-        basketCosts.innerHTML = "";
+        basketSubtotalTemplate.innerHTML = "";
     } else {
-    basketCosts.innerHTML = `
+        basketSubtotalTemplate.innerHTML = `
             <div class="overall-costs">
                 <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
                 <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
+            </div>
+        `;
+    }
+}
+
+function renderBasketTotal() {
+    if (Object.keys(basket).length == 0) {
+        basketTotalTemplate.innerHTML = "";
+    } else {
+        basketTotalTemplate.innerHTML = `
+            <div>
                 <hr>
-                <div class="costs total"><p>Gesamt</p><p class="total-inner">${renderBasketTotal()}€</p></div>
+                <div class="costs total"><p>Gesamt</p><p class="total-inner">${showBasketTotal()}€</p></div>
             </div>
         `;
     }

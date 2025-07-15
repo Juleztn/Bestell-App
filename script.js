@@ -17,7 +17,8 @@ function init() {
     renderCategories();
     renderMeals();
     renderBasket();
-    renderBasketCosts();
+    renderBasketSubtotal();
+    renderBasketTotal();
 }
 
 function changeDeliveryBtn() {
@@ -29,6 +30,7 @@ function changeDeliveryBtn() {
     for (let i = 0; i < deliveryCost.length; i++) {
         deliveryCost[i].classList.remove("d_none");
     }
+    renderBasketTotal();
 }
 
 function changePickupBtn() {
@@ -40,13 +42,15 @@ function changePickupBtn() {
     for (let i = 0; i < deliveryCost.length; i++) {
         deliveryCost[i].classList.add("d_none");
     }
+    renderBasketTotal();
 }
 
 function moveToBasket(iCat, iMeals) {
     basket.push(meals.categories[iCat].items[iMeals]);
     saveToLocalStorage();
     renderBasket();
-    renderBasketCosts();
+    renderBasketSubtotal();
+    renderBasketTotal();
 }
 
 function saveToLocalStorage() {
@@ -69,7 +73,8 @@ function plusMealAmount(iBasket) {
     if (mealAmount[iBasket].innerHTML > 1) {
         minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
     }
-    renderBasketCosts();
+    renderBasketSubtotal();
+    renderBasketTotal();
 }
 
 function minusMealAmount(iBasket) {
@@ -85,7 +90,8 @@ function minusMealAmount(iBasket) {
         saveToLocalStorage();
         renderBasket();
     }
-    renderBasketCosts();
+    renderBasketSubtotal();
+    renderBasketTotal();
 }
 
 function changeBasketSubtotal() {
@@ -96,7 +102,7 @@ function changeBasketSubtotal() {
     return subtotalCalculated.toFixed(2);
 }
 
-function renderBasketTotal() {
+function showBasketTotal() {
     for (let i = 0; i < deliveryCost.length; i++) {
         if (deliveryCost[i].classList.contains("d_none")) {
             return subtotalCalculated.toFixed(2);
