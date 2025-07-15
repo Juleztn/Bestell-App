@@ -114,6 +114,30 @@
     gap: 8px;
 }
 
+.price-euro {
+    display: flex;
+    gap: 8px;
+}
+
+.minus-trash {
+    display: flex;
+}
+
+.overall-costs {
+    color: #808080;
+    padding-top: 24px;
+}
+
+.total {
+    color: black;
+    font-size: 18px;
+}
+
+.costs {
+    display: flex;
+    justify-content: space-between;
+}
+
 .content {
     width: calc(100% - 300px);
 }

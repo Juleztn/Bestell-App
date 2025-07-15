@@ -28,3 +28,7 @@ header {
 header img {
     width: 150px;
 }
+
+hr {
+    margin: 16px 0;
+}

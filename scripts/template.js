@@ -4,6 +4,7 @@ let mealsContent = document.getElementById('meals');
 let mealCategory = document.getElementById('meal-category');
 let basketContent = document.getElementById('basket-content');
 let minusTrash = document.getElementsByClassName('minus-trash');
+let basketCosts = document.getElementById('basket-costs');
 
 
 function renderDeliveryCosts() {
@@ -79,15 +80,29 @@ function renderBasket() {
             <div class="basket-meals">
                 <div class="basket-meal-info">
                     <b><p>${basket[iBasket].name}</p></b>
-                    <p>${basket[iBasket].price.toFixed(2)} €</p>
+                    <div class="price-euro"><p class="price">${basket[iBasket].price.toFixed(2)}</p><p>€</p></div>
                 </div>
                 <div class="basket-amount">
                 <div class="minus-trash" onclick="minusMealAmount(${iBasket})"><img src="./assets/icons/trash-solid.svg" alt=""></div>
                     <p class="meal-amount">1</p>
                     <img onclick="plusMealAmount(${iBasket})" src="./assets/icons/plus-solid.svg" alt="Plus">
                 </div>
+            </div>`;
+        }
+    }
+}
+
+function renderBasketCosts() {
+    if (Object.keys(basket).length == 0) {
+        basketCosts.innerHTML = "";
+    } else {
+    basketCosts.innerHTML = `
+            <div class="overall-costs">
+                <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
+                <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
+                <hr>
+                <div class="costs total"><p>Gesamt</p><p class="total-inner">${renderBasketTotal()}€</p></div>
             </div>
         `;
-        }
     }
 }
