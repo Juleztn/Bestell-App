@@ -8,8 +8,12 @@ let basketSubtotal = document.getElementsByClassName('subtotal');
 let basketTotal = document.getElementsByClassName('total-inner');
 let deliveryCost = document.getElementsByClassName('delivery-cost');
 let subtotalCalculated = 0;
+let overlay = document.getElementById('overlay');
+let orderDialog = document.getElementById('successfully-ordered');
+
 
 function init() {
+    // orderDialog.removeAttribute("open");
     renderDeliveryCosts();
     renderCategories();
     renderMeals();
@@ -17,7 +21,6 @@ function init() {
     renderBasket();
     updateMealElements();
     applyLocalStorageValue();
-    renderBasketSubtotal();
     renderBasketTotal();
 }
 
@@ -54,13 +57,12 @@ function moveToBasket(iCat, iMeals) {
         }
     }
     basket.push(itemToAdd);
-    amounts.push(1); 
+    amounts.push(1);
     renderBasket();
     updateMealElements();
     mealAmount[basket.length - 1].innerHTML = amounts[basket.length - 1];
     mealPrice[basket.length - 1].innerHTML = itemToAdd.price.toFixed(2);
     minusTrash[basket.length - 1].innerHTML = `<img src="./assets/icons/trash-solid.svg" alt="">`;
-    renderBasketSubtotal();
     renderBasketTotal();
     saveToLocalStorage();
 }
@@ -100,7 +102,6 @@ function plusMealAmount(iBasket) {
     if (amounts[iBasket] > 1) {
         minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
     }
-    renderBasketSubtotal();
     renderBasketTotal();
     saveToLocalStorage();
 }
@@ -119,7 +120,6 @@ function minusMealAmount(iBasket) {
         renderBasket();
         updateMealElements();
     }
-    renderBasketSubtotal();
     renderBasketTotal();
     saveToLocalStorage();
 }
@@ -140,6 +140,23 @@ function showBasketTotal() {
             return (subtotalCalculated + 1.99).toFixed(2);
         }
     }
+}
+
+function orderMeals() {
+    basket.length = 0;
+    amounts.length = 0;
+    saveToLocalStorage();
+    renderBasket();
+    renderBasketTotal();
+    orderDialog.show();
+}
+
+function closeDialog() {
+    orderDialog.close();
+}
+
+function toggleOverlay() {
+    overlay.classList.toggle('d_none');
 }
 
 function updateMealElements() {

@@ -1,0 +1,18 @@
+@media(max-width: 1000px) {
+    .meal-content {
+        margin: 24px 5vw;
+    }
+}
+
+@media(max-width: 800px) {
+    .basket-wrapper {
+        width: 250px;
+    }
+    .content {
+        width: calc(100% - 250px);
+    }
+    .order-btn {
+        width: 200px;
+        padding: 10px 16px;
+    }
+}

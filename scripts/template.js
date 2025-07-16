@@ -6,6 +6,7 @@ let basketContent = document.getElementById('basket-content');
 let minusTrash = document.getElementsByClassName('minus-trash');
 let basketSubtotalTemplate = document.getElementById('basket-subtotal');
 let basketTotalTemplate = document.getElementById('basket-total');
+let orderBtn = document.getElementById('order-button');
 
 
 function renderDeliveryCosts() {
@@ -92,9 +93,11 @@ function renderBasket() {
     }
 }
 
-function renderBasketSubtotal() {
+function renderBasketTotal() {
     if (Object.keys(basket).length == 0) {
         basketSubtotalTemplate.innerHTML = "";
+        basketTotalTemplate.innerHTML = "";
+        orderBtn.innerHTML = "";
     } else {
         basketSubtotalTemplate.innerHTML = `
             <div class="overall-costs">
@@ -102,18 +105,14 @@ function renderBasketSubtotal() {
                 <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
             </div>
         `;
-    }
-}
-
-function renderBasketTotal() {
-    if (Object.keys(basket).length == 0) {
-        basketTotalTemplate.innerHTML = "";
-    } else {
         basketTotalTemplate.innerHTML = `
             <div>
                 <hr>
                 <div class="costs total"><p>Gesamt</p><p class="total-inner">${showBasketTotal()}€</p></div>
             </div>
+        `;
+        orderBtn.innerHTML = `
+            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${showBasketTotal()}€)</b></button>
         `;
     }
 }

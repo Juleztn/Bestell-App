@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./styles/global.css">
     <link rel="stylesheet" href="./styles/assets.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
 </head>
 
 <body onload="init()">
+
+    <div onclick="toggleOverlay(); closeDialog()" id="overlay" class="d_none"></div>
+
     <header>
         <img src="./assets/img/Logo.png" alt="Bestell-App Logo">
         <div class="icons">
@@ -24,6 +28,10 @@
             </div>
         </div>
     </header>
+
+    <dialog id="successfully-ordered">
+        <p class="inner-dialog">Testbestellung erfolgreich vorgenommen!</p>
+    </dialog>
 
     <div class="page-style">
         <section class="basket-wrapper">
@@ -38,10 +46,15 @@
                 <div id="basket-content">
 
                 </div>
+            </div>
+            <div class="checkout">
                 <div id="basket-subtotal">
 
                 </div>
                 <div id="basket-total">
+
+                </div>
+                <div id="order-button">
 
                 </div>
             </div>
@@ -77,10 +90,14 @@
         </div>
     </div>
 
+    <footer>
+
+    </footer>
+
 
     <script src="./scripts/db.js"></script>
-    <script src="script.js"></script>
     <script src="./scripts/template.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

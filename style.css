@@ -30,12 +30,18 @@
 .page-style {
     display: flex;
     flex-direction: row-reverse;
+    min-height: calc(100vh - 176px);
 }
 
 .basket-wrapper {
     width: 300px;
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, .02), 0px 2px 12px -2px rgba(0, 0, 0, .08), 0px 3px 6px 0px rgba(0, 0, 0, .06);
+}
+
+.basket-section-content {
+    flex-grow: 1;
 }
 
 #basket {
@@ -140,6 +146,27 @@
 .costs {
     display: flex;
     justify-content: space-between;
+}
+
+.checkout {
+    position: fixed;
+    bottom: 88px;
+    background-color: white;
+    padding: 24px;
+    z-index: 1;
+}
+
+.order-btn {
+    background-color: #FF8000;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.order-btn:hover {
+    background-color: #d66b00;
 }
 
 .content {
