@@ -65,7 +65,6 @@ function renderMealImage(iCat, iMeals) {
 }
 
 function renderBasket() {
-    getFromLocalStorage();
     if (Object.keys(basket).length == 0) {
         basketContent.innerHTML = `
             <div class="basket-empty">
@@ -81,11 +80,11 @@ function renderBasket() {
             <div class="basket-meals">
                 <div class="basket-meal-info">
                     <b><p>${basket[iBasket].name}</p></b>
-                    <div class="price-euro"><p class="price">${basket[iBasket].price.toFixed(2)}</p><p>€</p></div>
+                    <div class="price-euro"><p class="price">${(basket[iBasket].price * amounts[iBasket]).toFixed(2)}</p><p>€</p></div>
                 </div>
                 <div class="basket-amount">
-                <div class="minus-trash" onclick="minusMealAmount(${iBasket})"><img src="./assets/icons/trash-solid.svg" alt=""></div>
-                    <p class="meal-amount">1</p>
+                <div class="minus-trash" onclick="minusMealAmount(${iBasket})"><img src="${amounts[iBasket] === 1 ? './assets/icons/trash-solid.svg' : './assets/icons/minus-solid.svg'}" alt=""></div>
+                    <p class="meal-amount">${amounts[iBasket]}</p>
                     <img onclick="plusMealAmount(${iBasket})" src="./assets/icons/plus-solid.svg" alt="Plus">
                 </div>
             </div>`;

@@ -9,14 +9,14 @@ let basketTotal = document.getElementsByClassName('total-inner');
 let deliveryCost = document.getElementsByClassName('delivery-cost');
 let subtotalCalculated = 0;
 
-
-
 function init() {
-    getFromLocalStorage();
     renderDeliveryCosts();
     renderCategories();
     renderMeals();
+    getFromLocalStorage();
     renderBasket();
+    updateMealElements();
+    applyLocalStorageValue();
     renderBasketSubtotal();
     renderBasketTotal();
 }
@@ -46,52 +46,82 @@ function changePickupBtn() {
 }
 
 function moveToBasket(iCat, iMeals) {
-    basket.push(meals.categories[iCat].items[iMeals]);
-    saveToLocalStorage();
+    let itemToAdd = meals.categories[iCat].items[iMeals];
+    for (let iBasket = 0; iBasket < basket.length; iBasket++) {
+        if (basket[iBasket].name === itemToAdd.name) {
+            plusMealAmount(iBasket);
+            return;
+        }
+    }
+    basket.push(itemToAdd);
+    amounts.push(1); 
     renderBasket();
+    updateMealElements();
+    mealAmount[basket.length - 1].innerHTML = amounts[basket.length - 1];
+    mealPrice[basket.length - 1].innerHTML = itemToAdd.price.toFixed(2);
+    minusTrash[basket.length - 1].innerHTML = `<img src="./assets/icons/trash-solid.svg" alt="">`;
     renderBasketSubtotal();
     renderBasketTotal();
+    saveToLocalStorage();
 }
 
 function saveToLocalStorage() {
     localStorage.setItem("basket", JSON.stringify(basket));
+    localStorage.setItem("amounts", JSON.stringify(amounts));
+    for (let index = 0; index < basket.length; index++) {
+        localStorage.setItem(`minusOrTrash${index + 1}`, minusTrash[index].innerHTML);
+    }
 }
 
 function getFromLocalStorage() {
     let myArr = JSON.parse(localStorage.getItem("basket"));
+    let myAmounts = JSON.parse(localStorage.getItem("amounts"));
     if (myArr != null) {
         basket = myArr;
+        amounts = myAmounts || new Array(basket.length).fill(1);
     }
+}
 
+function applyLocalStorageValue() {
+    for (let index = 0; index < basket.length; index++) {
+        let minusOrTrash = localStorage.getItem(`minusOrTrash${index + 1}`);
+
+        if (minusOrTrash != null) {
+            minusTrash[index].innerHTML = minusOrTrash;
+        }
+    }
 }
 
 function plusMealAmount(iBasket) {
-    let amount = parseInt(mealAmount[iBasket].innerHTML);
+    amounts[iBasket]++;
     let price = basket[iBasket].price;
-    mealAmount[iBasket].innerHTML = amount + 1;
-    mealPrice[iBasket].innerHTML = (price * (amount + 1)).toFixed(2);
-    if (mealAmount[iBasket].innerHTML > 1) {
+    mealAmount[iBasket].innerHTML = amounts[iBasket];
+    mealPrice[iBasket].innerHTML = (price * amounts[iBasket]).toFixed(2);
+    if (amounts[iBasket] > 1) {
         minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
     }
     renderBasketSubtotal();
     renderBasketTotal();
+    saveToLocalStorage();
 }
 
 function minusMealAmount(iBasket) {
-    amount = parseInt(mealAmount[iBasket].innerHTML);
-    price = basket[iBasket].price;
-    mealAmount[iBasket].innerHTML = amount - 1;
-    mealPrice[iBasket].innerHTML = (price * (amount - 1)).toFixed(2);
-    if (mealAmount[iBasket].innerHTML == 1) {
+    amounts[iBasket]--;
+    let price = basket[iBasket].price;
+    mealAmount[iBasket].innerHTML = amounts[iBasket];
+    mealPrice[iBasket].innerHTML = (price * amounts[iBasket]).toFixed(2);
+    if (amounts[iBasket] == 1) {
         minusTrash[iBasket].innerHTML = `<img src="./assets/icons/trash-solid.svg" alt="">`;
     }
-    if (mealAmount[iBasket].innerHTML == 0) {
+    if (amounts[iBasket] == 0) {
         basket.splice(iBasket, 1);
-        saveToLocalStorage();
+        amounts.splice(iBasket, 1);
         renderBasket();
+        updateMealElements();
     }
     renderBasketSubtotal();
     renderBasketTotal();
+    saveToLocalStorage();
 }
 
 function changeBasketSubtotal() {
@@ -110,4 +140,10 @@ function showBasketTotal() {
             return (subtotalCalculated + 1.99).toFixed(2);
         }
     }
+}
+
+function updateMealElements() {
+    mealAmount = document.getElementsByClassName('meal-amount');
+    mealPrice = document.getElementsByClassName('price');
+    minusTrash = document.getElementsByClassName('minus-trash');
 }

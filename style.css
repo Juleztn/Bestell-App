@@ -79,6 +79,8 @@
 
 #basket-content {
     margin: 32px 0;
+    overflow-y: auto;
+    max-height: 62vh;
 }
 
 .basket-meals {
@@ -112,6 +114,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
     gap: 8px;
 }
 

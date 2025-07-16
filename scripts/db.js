@@ -100,3 +100,4 @@ let meals = {
 }
 
 let basket = [];
+let amounts = []; 
