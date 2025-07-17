@@ -176,11 +176,35 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
     z-index: 4;
-    padding: 0;
+    padding: 24px;
     border: none;
+}
+
+#basket-dialog-content {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.basket-responsive-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.basket-responsive-title img {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.basket-responsive-title img:hover {
+    background-color: #E5E4E1;
+    border-radius: 50%;
 }
 
 .content {
@@ -320,4 +344,40 @@
     padding: 4px;
     border: solid 1px #e0e0e0;
     cursor: pointer;
+}
+
+.impressum {
+    margin: 32px;
+}
+
+.personal-info {
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.impressum-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.impressum-title h1 {
+    margin: 0;
+}
+
+.back-btn {
+    padding: 16px 20px;
+    border: none;
+    background-color: #FF8000;
+    color: white;
+    border-radius: 24px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.back-btn:hover {
+    background-color: #d66b00;
 }

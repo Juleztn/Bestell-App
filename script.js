@@ -22,6 +22,7 @@ function init() {
     renderMeals();
     getFromLocalStorage();
     renderBasket();
+    renderBasketDialogTotal();
     updateMealElements();
     applyLocalStorageValue();
 }
@@ -77,6 +78,7 @@ function moveToBasket(iCat, iMeals) {
     basket.push(itemToAdd);
     amounts.push(1);
     renderBasket();
+    renderBasketDialogTotal();
     updateMealElements();
     mealAmount[basket.length - 1].innerHTML = amounts[basket.length - 1];
     mealPrice[basket.length - 1].innerHTML = itemToAdd.price.toFixed(2);
@@ -120,8 +122,8 @@ function plusMealAmount(iBasket) {
     if (amounts[iBasket] > 1) {
         minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
     }
-    renderBasket();
-    changeBasketTotal();
+    renderBasketDialogTotal();
+    showBasketDialog();
     saveToLocalStorage();
 }
 
@@ -137,12 +139,18 @@ function minusMealAmount(iBasket) {
         basket.splice(iBasket, 1);
         amounts.splice(iBasket, 1);
         updateMealElements();
+        if (basket.length == 0) {
+            closeBasketDialog();
+        }
+        renderBasket();
     }
-    renderBasket();
+    renderBasketDialogTotal();
+    showBasketDialog();
     saveToLocalStorage();
 }
 
 function changeBasketSubtotal() {
+    updateMealElements();
     subtotalCalculated = 0;
     for (let index = 0; index < mealPrice.length; index++) {
         subtotalCalculated += parseFloat(mealPrice[index].innerHTML);
@@ -165,12 +173,32 @@ function orderMeals() {
     amounts.length = 0;
     saveToLocalStorage();
     renderBasket();
-    renderBasketTotal();
     orderDialog.show();
+}
+
+function orderMealsFromDialog() {
+    basket.length = 0;
+    amounts.length = 0;
+    saveToLocalStorage();
+    renderBasket();
+    basketDialog.close();
+    orderDialog.show();
+}
+
+function showBasketDialog() {
+    basketDialog.show();
+    basketBtn.innerHTML = `
+        <button onclick="orderMealsFromDialog(); toggleOverlay()" class="basket-btn">Bestellen ${changeBasketTotal()} €</button>`;
 }
 
 function closeDialog() {
     orderDialog.close();
+}
+
+function closeBasketDialog() {
+    basketDialog.close();
+    basketBtn.innerHTML = `
+        <button onclick="showBasketDialog()" class="basket-btn">Warenkorb ansehen</button>`;
 }
 
 function toggleOverlay() {
@@ -183,6 +211,6 @@ function updateMealElements() {
     minusTrash = document.getElementsByClassName('minus-trash');
 }
 
-screenWidth.addEventListener("change", function(){
+screenWidth.addEventListener("change", function () {
     document.location.reload();
 });
