@@ -1,18 +1,127 @@
 @media(max-width: 1000px) {
-    .meal-content {
-        margin: 24px 5vw;
+    .basket-wrapper {
+        display: none;
+    }
+
+    .content {
+        width: 100% !important;
+    }
+
+    .delivery-pickup-responsive {
+        display: flex;
+        margin: 0 15vw;
+    }
+
+    .delivery-responsive {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pickup-responsive {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .basket-btn {
+        display: block;
     }
 }
 
-@media(max-width: 800px) {
-    .basket-wrapper {
-        width: 250px;
+@media(max-width: 700px) {
+    .delivery-pickup-responsive {
+        margin: 0 5vw;
     }
-    .content {
-        width: calc(100% - 250px);
+}
+
+@media(max-width: 550px) {
+    .delivery-pickup-responsive {
+        margin: 0;
     }
-    .order-btn {
-        width: 200px;
-        padding: 10px 16px;
+
+    .meal-content {
+        margin: 24px 40px;
+    }
+}
+
+@media(max-width: 500px) {
+    header img {
+        width: 120px;
+    }
+
+    .icon-wrapper {
+        width: 40px;
+        height: 40px;
+    }
+
+    .icon-wrapper img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .main-img {
+        margin: 24px;
+        border-radius: 24px;
+        height: 280px;
+    }
+
+    .pizza-logo {
+        width: 64px;
+        top: 310px;
+        left: 40px;
+    }
+
+    #categories {
+        flex-wrap: wrap;
+        flex-direction: column;
+        background-color: white;
+        padding: 0;
+    }
+
+    #categories a {
+        background-color: #f5f5f5;
+        margin: 8px;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .meal-category img {
+        height: 120px;
+    }
+
+    .meals img {
+        width: 64px;
+        aspect-ratio: 1 / 1;
+    }
+
+    .image-plus {
+        display: flex;
+        align-items: center;
+    }
+
+    .description {
+        font-size: 12px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+}
+
+@media(max-width: 400px) {
+    .main-img {
+        height: 230px;
+    }
+
+    .pizza-logo {
+        width: 64px;
+        top: 260px;
+        left: 40px;
+    }
+
+    .meal-content {
+        margin: 24px;
     }
 }

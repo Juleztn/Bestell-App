@@ -30,7 +30,6 @@
 .page-style {
     display: flex;
     flex-direction: row-reverse;
-    min-height: calc(100vh - 176px);
 }
 
 .basket-wrapper {
@@ -58,6 +57,10 @@
     display: flex;
     justify-content: center;
     margin-top: 16px;
+}
+
+.delivery-pickup-responsive {
+    display: none;
 }
 
 .delivery {
@@ -152,7 +155,7 @@
     position: fixed;
     bottom: 88px;
     background-color: white;
-    padding: 24px;
+    padding: 8px 24px;
     z-index: 1;
 }
 
@@ -169,6 +172,17 @@
     background-color: #d66b00;
 }
 
+#basket-dialog-responsive {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 4;
+    padding: 0;
+    border: none;
+}
+
 .content {
     width: calc(100% - 300px);
 }
@@ -182,7 +196,7 @@
 .pizza-logo {
     width: 80px;
     position: absolute;
-    top: 350px;
+    top: 330px;
     left: 150px;
     border-radius: 16px;
     box-shadow: 4px 4px 15px 0 black, -4px -4px 15px 0 black;

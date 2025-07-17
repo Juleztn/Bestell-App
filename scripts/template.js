@@ -7,6 +7,9 @@ let minusTrash = document.getElementsByClassName('minus-trash');
 let basketSubtotalTemplate = document.getElementById('basket-subtotal');
 let basketTotalTemplate = document.getElementById('basket-total');
 let orderBtn = document.getElementById('order-button');
+let basketBtn = document.getElementById('basket-button-responsive');
+let basketDialog = document.getElementById('basket-dialog-responsive');
+let screenWidth = window.matchMedia("(min-width: 1000px)");
 
 
 function renderDeliveryCosts() {
@@ -66,53 +69,105 @@ function renderMealImage(iCat, iMeals) {
 }
 
 function renderBasket() {
-    if (Object.keys(basket).length == 0) {
-        basketContent.innerHTML = `
-            <div class="basket-empty">
-                <img class="basket-image" src="./assets/icons/basket.svg">
-                <h2>Fülle deinen Warenkorb</h2>
-                <p>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.</p>
-            </div>
-        `;
+    if (screenWidth.matches) {
+        if (Object.keys(basket).length == 0) {
+            basketContent.innerHTML = showEmptyBasket();
+            basketSubtotalTemplate.innerHTML = "";
+            basketTotalTemplate.innerHTML = "";
+            orderBtn.innerHTML = "";
+        } else {
+            basketContent.innerHTML = "";
+            for (let iBasket = 0; iBasket < basket.length; iBasket++) {
+                basketContent.innerHTML += showBasketMeals(iBasket);
+                basketSubtotalTemplate.innerHTML = showBasketSubtotal();
+                basketTotalTemplate.innerHTML = showBasketTotal();
+                orderBtn.innerHTML = `
+                <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
+            }
+        }
     } else {
-        basketContent.innerHTML = "";
-        for (let iBasket = 0; iBasket < basket.length; iBasket++) {
-            basketContent.innerHTML += `
-            <div class="basket-meals">
-                <div class="basket-meal-info">
-                    <b><p>${basket[iBasket].name}</p></b>
-                    <div class="price-euro"><p class="price">${(basket[iBasket].price * amounts[iBasket]).toFixed(2)}</p><p>€</p></div>
-                </div>
-                <div class="basket-amount">
-                <div class="minus-trash" onclick="minusMealAmount(${iBasket})"><img src="${amounts[iBasket] === 1 ? './assets/icons/trash-solid.svg' : './assets/icons/minus-solid.svg'}" alt=""></div>
-                    <p class="meal-amount">${amounts[iBasket]}</p>
-                    <img onclick="plusMealAmount(${iBasket})" src="./assets/icons/plus-solid.svg" alt="Plus">
-                </div>
-            </div>`;
+        if (Object.keys(basket).length == 0) {
+            basketBtn.innerHTML = "";
+        } else {
+            basketBtn.innerHTML = `
+            <button onclick="showBasketDialog()" class="basket-btn">${basketBtnContent()}</button>`;
         }
     }
 }
 
-function renderBasketTotal() {
-    if (Object.keys(basket).length == 0) {
-        basketSubtotalTemplate.innerHTML = "";
-        basketTotalTemplate.innerHTML = "";
-        orderBtn.innerHTML = "";
-    } else {
-        basketSubtotalTemplate.innerHTML = `
-            <div class="overall-costs">
-                <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
-                <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
+function showEmptyBasket() {
+    return `
+        <div class="basket-empty">
+            <img class="basket-image" src="./assets/icons/basket.svg">
+            <h2>Fülle deinen Warenkorb</h2>
+            <p>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.</p>
+        </div>
+        `;
+}
+
+function showBasketMeals(iBasket) {
+    return `
+        <div class="basket-meals">
+            <div class="basket-meal-info">
+                <b><p>${basket[iBasket].name}</p></b>
+                <div class="price-euro"><p class="price">${(basket[iBasket].price * amounts[iBasket]).toFixed(2)}</p><p>€</p></div>
             </div>
-        `;
-        basketTotalTemplate.innerHTML = `
-            <div>
-                <hr>
-                <div class="costs total"><p>Gesamt</p><p class="total-inner">${showBasketTotal()}€</p></div>
+            <div class="basket-amount">
+            <div class="minus-trash" onclick="minusMealAmount(${iBasket})"><img src="${amounts[iBasket] === 1 ? './assets/icons/trash-solid.svg' : './assets/icons/minus-solid.svg'}" alt=""></div>
+                <p class="meal-amount">${amounts[iBasket]}</p>
+                <img onclick="plusMealAmount(${iBasket})" src="./assets/icons/plus-solid.svg" alt="Plus">
             </div>
-        `;
-        orderBtn.innerHTML = `
-            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${showBasketTotal()}€)</b></button>
-        `;
+        </div>`;
+}
+
+function showBasketSubtotal() {
+    return `
+        <div class="overall-costs">
+            <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
+            <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
+        </div>`;
+}
+
+function showBasketTotal() {
+    return `
+        <div>
+            <hr>
+            <div class="costs total"><p>Gesamt</p><p class="total-inner">${changeBasketTotal()}€</p></div>
+        </div>`;
+}
+
+function showBasketDialog() {    
+    basketDialog.show();
+    for (let iBasket = 0; iBasket < basket.length; iBasket++) {
+        basketDialog.innerHTML += `
+        <div class="basket-meals">
+            <div class="basket-meal-info">
+                <b><p>${basket[iBasket].name}</p></b>
+                <div class="price-euro"><p class="price">${(basket[iBasket].price * amounts[iBasket]).toFixed(2)}</p><p>€</p></div>
+            </div>
+            <div class="basket-amount">
+                <div class="minus-trash" onclick="minusMealAmount(${iBasket})">
+                    <img src="${amounts[iBasket] === 1 ? './assets/icons/trash-solid.svg' : './assets/icons/minus-solid.svg'}" alt="">
+                </div>
+                <p class="meal-amount">${amounts[iBasket]}</p>
+                <img onclick="plusMealAmount(${iBasket})" src="./assets/icons/plus-solid.svg" alt="Plus">
+            </div>
+        </div>
+        <div class="overall-costs">
+            <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
+            <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
+        </div>
+        <div>
+            <hr>
+            <div class="costs total"><p>Gesamt</p><p class="total-inner">${changeBasketTotal()}€</p></div>
+        </div>`;
+    }
+}
+
+function basketBtnContent() {
+    if (basketDialog.open) {
+        return `Bestellen (${changeBasketTotal()}€)`;
+    } else if (basketDialog.close) {
+        return "Warenkorb ansehen";
     }
 }

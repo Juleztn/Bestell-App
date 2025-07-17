@@ -1,7 +1,11 @@
 let pickupBtn = document.getElementById('pickup');
 let deliveryBtn = document.getElementById('delivery');
+let pickupBtnResponsive = document.getElementById('pickup-responsive');
+let deliveryBtnResponsive = document.getElementById('delivery-responsive');
 let bicycle = document.getElementById('bicycle-img');
 let hand = document.getElementById('hand-img');
+let bicycleResponsive = document.getElementById('bicycle-img-responsive');
+let handResponsive = document.getElementById('hand-img-responsive');
 let mealAmount = document.getElementsByClassName('meal-amount');
 let mealPrice = document.getElementsByClassName('price');
 let basketSubtotal = document.getElementsByClassName('subtotal');
@@ -13,7 +17,6 @@ let orderDialog = document.getElementById('successfully-ordered');
 
 
 function init() {
-    // orderDialog.removeAttribute("open");
     renderDeliveryCosts();
     renderCategories();
     renderMeals();
@@ -21,7 +24,6 @@ function init() {
     renderBasket();
     updateMealElements();
     applyLocalStorageValue();
-    renderBasketTotal();
 }
 
 function changeDeliveryBtn() {
@@ -33,7 +35,7 @@ function changeDeliveryBtn() {
     for (let i = 0; i < deliveryCost.length; i++) {
         deliveryCost[i].classList.remove("d_none");
     }
-    renderBasketTotal();
+    changeBasketTotal();
 }
 
 function changePickupBtn() {
@@ -45,7 +47,23 @@ function changePickupBtn() {
     for (let i = 0; i < deliveryCost.length; i++) {
         deliveryCost[i].classList.add("d_none");
     }
-    renderBasketTotal();
+    changeBasketTotal();
+}
+
+function changeDeliveryBtnResponsive() {
+    deliveryBtnResponsive.classList.add("delivery");
+    pickupBtnResponsive.classList.remove("delivery");
+    bicycleResponsive.src = "./assets/icons/bicycle-solid-orange.svg";
+    handResponsive.src = "./assets/icons/hand-holding-heart-solid.svg";
+    renderDeliveryCosts();
+}
+
+function changePickupBtnResponsive() {
+    pickupBtnResponsive.classList.add("delivery");
+    deliveryBtnResponsive.classList.remove("delivery");
+    bicycleResponsive.src = "./assets/icons/bicycle-solid.svg";
+    handResponsive.src = "./assets/icons/hand-holding-heart-solid-orange.svg";
+    renderLocation();
 }
 
 function moveToBasket(iCat, iMeals) {
@@ -63,7 +81,6 @@ function moveToBasket(iCat, iMeals) {
     mealAmount[basket.length - 1].innerHTML = amounts[basket.length - 1];
     mealPrice[basket.length - 1].innerHTML = itemToAdd.price.toFixed(2);
     minusTrash[basket.length - 1].innerHTML = `<img src="./assets/icons/trash-solid.svg" alt="">`;
-    renderBasketTotal();
     saveToLocalStorage();
 }
 
@@ -85,11 +102,12 @@ function getFromLocalStorage() {
 }
 
 function applyLocalStorageValue() {
-    for (let index = 0; index < basket.length; index++) {
-        let minusOrTrash = localStorage.getItem(`minusOrTrash${index + 1}`);
-
-        if (minusOrTrash != null) {
-            minusTrash[index].innerHTML = minusOrTrash;
+    if (basket.length > 0) {
+        for (let index = 0; index < basket.length; index++) {
+            let minusOrTrash = localStorage.getItem(`minusOrTrash${index + 1}`);
+            if (minusOrTrash != null && minusTrash[index]) {
+                minusTrash[index].innerHTML = minusOrTrash;
+            }
         }
     }
 }
@@ -102,7 +120,8 @@ function plusMealAmount(iBasket) {
     if (amounts[iBasket] > 1) {
         minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
     }
-    renderBasketTotal();
+    renderBasket();
+    changeBasketTotal();
     saveToLocalStorage();
 }
 
@@ -117,10 +136,9 @@ function minusMealAmount(iBasket) {
     if (amounts[iBasket] == 0) {
         basket.splice(iBasket, 1);
         amounts.splice(iBasket, 1);
-        renderBasket();
         updateMealElements();
     }
-    renderBasketTotal();
+    renderBasket();
     saveToLocalStorage();
 }
 
@@ -132,7 +150,7 @@ function changeBasketSubtotal() {
     return subtotalCalculated.toFixed(2);
 }
 
-function showBasketTotal() {
+function changeBasketTotal() {
     for (let i = 0; i < deliveryCost.length; i++) {
         if (deliveryCost[i].classList.contains("d_none")) {
             return subtotalCalculated.toFixed(2);
@@ -164,3 +182,7 @@ function updateMealElements() {
     mealPrice = document.getElementsByClassName('price');
     minusTrash = document.getElementsByClassName('minus-trash');
 }
+
+screenWidth.addEventListener("change", function(){
+    document.location.reload();
+});
