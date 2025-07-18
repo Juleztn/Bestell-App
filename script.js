@@ -33,10 +33,12 @@ function changeDeliveryBtn() {
     bicycle.src = "./assets/icons/bicycle-solid-orange.svg";
     hand.src = "./assets/icons/hand-holding-heart-solid.svg";
     renderDeliveryCosts();
-    for (let i = 0; i < deliveryCost.length; i++) {
-        deliveryCost[i].classList.remove("d_none");
+    if (basket.length > 0 && screenWidth.matches) {
+        basketSubtotalTemplate.innerHTML = showBasketSubtotal();
+        basketTotalTemplate.innerHTML = showBasketTotal();
+        orderBtn.innerHTML = `
+            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
     }
-    changeBasketTotal();
 }
 
 function changePickupBtn() {
@@ -48,7 +50,12 @@ function changePickupBtn() {
     for (let i = 0; i < deliveryCost.length; i++) {
         deliveryCost[i].classList.add("d_none");
     }
-    changeBasketTotal();
+    if (basket.length > 0 && screenWidth.matches) {
+        basketSubtotalTemplate.innerHTML = showBasketSubtotal();
+        basketTotalTemplate.innerHTML = showBasketTotal();
+        orderBtn.innerHTML = `
+            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
+    }
 }
 
 function changeDeliveryBtnResponsive() {
@@ -57,6 +64,10 @@ function changeDeliveryBtnResponsive() {
     bicycleResponsive.src = "./assets/icons/bicycle-solid-orange.svg";
     handResponsive.src = "./assets/icons/hand-holding-heart-solid.svg";
     renderDeliveryCosts();
+    for (let i = 0; i < deliveryCost.length; i++) {
+        deliveryCost[i].classList.remove("d_none");
+    }
+    changeBasketTotal();
 }
 
 function changePickupBtnResponsive() {
@@ -65,6 +76,10 @@ function changePickupBtnResponsive() {
     bicycleResponsive.src = "./assets/icons/bicycle-solid.svg";
     handResponsive.src = "./assets/icons/hand-holding-heart-solid-orange.svg";
     renderLocation();
+    for (let i = 0; i < deliveryCost.length; i++) {
+        deliveryCost[i].classList.add("d_none");
+    }
+    changeBasketTotal();
 }
 
 function moveToBasket(iCat, iMeals) {
@@ -122,8 +137,13 @@ function plusMealAmount(iBasket) {
     if (amounts[iBasket] > 1) {
         minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
     }
-    renderBasketDialogTotal();
-    showBasketDialog();
+    if (!screenWidth.matches) {
+        renderBasketDialogTotal();
+    }
+    basketSubtotalTemplate.innerHTML = showBasketSubtotal();
+    basketTotalTemplate.innerHTML = showBasketTotal();
+    orderBtn.innerHTML = `
+        <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
     saveToLocalStorage();
 }
 
@@ -144,8 +164,16 @@ function minusMealAmount(iBasket) {
         }
         renderBasket();
     }
-    renderBasketDialogTotal();
-    showBasketDialog();
+    if (basket.length > 0 && screenWidth.matches) {
+        basketSubtotalTemplate.innerHTML = showBasketSubtotal();
+        basketTotalTemplate.innerHTML = showBasketTotal();
+        orderBtn.innerHTML = `
+            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
+    }
+    if (!screenWidth.matches && basket.length > 0) {
+        renderBasketDialogTotal();
+        showBasketDialog();
+    }
     saveToLocalStorage();
 }
 
@@ -159,11 +187,17 @@ function changeBasketSubtotal() {
 }
 
 function changeBasketTotal() {
-    for (let i = 0; i < deliveryCost.length; i++) {
-        if (deliveryCost[i].classList.contains("d_none")) {
-            return subtotalCalculated.toFixed(2);
-        } else {
+    if (screenWidth.matches) {
+        if (deliveryBtn.classList.contains("delivery")) {
             return (subtotalCalculated + 1.99).toFixed(2);
+        } else {
+            return subtotalCalculated.toFixed(2);
+        } 
+    } else {
+        if (deliveryBtnResponsive.classList.contains("delivery")) {
+            return (subtotalCalculated + 1.99).toFixed(2);
+        } else {
+            return subtotalCalculated.toFixed(2);
         }
     }
 }

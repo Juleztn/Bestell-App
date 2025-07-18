@@ -89,7 +89,7 @@
 #basket-content {
     margin: 32px 0;
     overflow-y: auto;
-    max-height: 62vh;
+    max-height: 50vh;
 }
 
 .basket-meals {

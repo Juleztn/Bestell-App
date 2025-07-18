@@ -124,16 +124,28 @@ function renderBasket() {
 }
 
 function renderBasketDialogTotal() {
-    basketDialogSubtotal.innerHTML = `
-        <div class="overall-costs">
-            <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
-            <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
-        </div>`;
-    basketDialogTotal.innerHTML = `
-        <div>
-            <hr>
-            <div class="costs total"><p>Gesamt</p><p class="total-inner">${changeBasketTotal()}€</p></div>
-        </div>`;
+    if (deliveryBtnResponsive.classList.contains("delivery")) {
+        basketDialogSubtotal.innerHTML = `
+            <div class="overall-costs">
+                <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
+                <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
+            </div>`;
+        basketDialogTotal.innerHTML = `
+            <div>
+                <hr>
+                <div class="costs total"><p>Gesamt</p><p class="total-inner">${changeBasketTotal()}€</p></div>
+            </div>`;
+    } else {
+        basketDialogSubtotal.innerHTML = `
+            <div class="overall-costs">
+                <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
+            </div>`;
+        basketDialogTotal.innerHTML = `
+            <div>
+                <hr>
+                <div class="costs total"><p>Gesamt</p><p class="total-inner">${changeBasketTotal()}€</p></div>
+            </div>`;
+    }
 }
 
 function showEmptyBasket() {
@@ -162,11 +174,18 @@ function showBasketMeals(iBasket) {
 }
 
 function showBasketSubtotal() {
-    return `
-        <div class="overall-costs">
-            <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
-            <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
-        </div>`;
+    if (deliveryBtn.classList.contains("delivery")) {
+        return `
+            <div class="overall-costs">
+                <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
+                <div class="costs"><p class="delivery-cost">Lieferkosten</p><p class="delivery-cost">1.99€</p></div>
+            </div>`;
+    } else {
+        return `
+            <div class="overall-costs">
+                <div class="costs subtotal"><p>Zwischensumme</p><p>${changeBasketSubtotal()}€</p></div>
+            </div>`;
+    }
 }
 
 function showBasketTotal() {

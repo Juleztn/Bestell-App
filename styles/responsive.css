@@ -33,9 +33,34 @@
     }
 }
 
-@media(max-width: 700px) {
+@media(max-width: 900px) {
+    #successfully-ordered {
+        left: 20%;
+    }
+}
+
+@media(max-width: 800px) {
+    #successfully-ordered {
+        left: 15%;
+    }
+}
+
+@media(max-width: 710px) {
     .delivery-pickup-responsive {
         margin: 0 5vw;
+    }
+
+    #successfully-ordered {
+        left: 25%;
+        width: 300px;
+        height: 72px;
+        text-align: center;
+    }
+}
+
+@media(max-width: 600px) {
+    #successfully-ordered {
+        left: 20%;
     }
 }
 
@@ -46,6 +71,12 @@
 
     .meal-content {
         margin: 24px 40px;
+    }
+
+    #successfully-ordered {
+        left: 25%;
+        width: 200px;
+        height: 88px;
     }
 }
 
@@ -112,6 +143,11 @@
     h3 {
         font-size: 16px;
     }
+
+    #successfully-ordered {
+        left: 20%;
+        right: 20%;
+    }
 }
 
 @media(max-width: 400px) {
@@ -127,5 +163,15 @@
 
     .meal-content {
         margin: 24px;
+    }
+
+    #successfully-ordered {
+        left: 13%;
+    }
+}
+
+@media(max-width: 350px) {
+    #successfully-ordered {
+        left: 10%;
     }
 }
