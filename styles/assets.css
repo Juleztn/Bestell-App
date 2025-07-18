@@ -46,6 +46,11 @@ hr {
     margin: 16px 0;
 }
 
+.content-limitation {
+    max-width: 1920px;
+    margin: auto;
+}
+
 #order-button {
     margin-top: 24px;
 }

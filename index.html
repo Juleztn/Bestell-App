@@ -17,30 +17,11 @@
 
     <div onclick="toggleOverlay(); closeDialog()" id="overlay" class="d_none"></div>
 
-    <dialog id="successfully-ordered">
-        <p class="inner-dialog">Testbestellung erfolgreich vorgenommen!</p>
-    </dialog>
-
-    <dialog id="basket-dialog-responsive">
-        <div id="basket-dialog-title">
-
-        </div>
-        <div id="basket-dialog-content">
-
-        </div>
-        <div id="basket-dialog-subtotal">
-
-        </div>
-        <div id="basket-dialog-total">
-
-        </div>
-    </dialog>
-
     <header>
         <img src="./assets/img/Logo.png" alt="Bestell-App Logo">
     </header>
 
-    <div class="page-style">
+    <div class="page-style content-limitation">
         <section class="basket-wrapper">
             <div id="basket">
                 <h2>Warenkorb</h2>
@@ -66,6 +47,23 @@
                 </div>
             </div>
         </section>
+        <dialog id="successfully-ordered">
+            <p class="inner-dialog">Testbestellung erfolgreich vorgenommen!</p>
+        </dialog>
+        <dialog id="basket-dialog-responsive">
+            <div id="basket-dialog-title">
+
+            </div>
+            <div id="basket-dialog-content">
+
+            </div>
+            <div id="basket-dialog-subtotal">
+
+            </div>
+            <div id="basket-dialog-total">
+
+            </div>
+        </dialog>
         <div class="content">
             <section class="main-img">
                 <img class="pizza-logo" src="./assets/img/pizzeria-logo.png" alt="">
@@ -104,9 +102,9 @@
                 </section>
             </div>
         </div>
-    </div>
+        <div id="basket-button-responsive">
+        </div>
 
-    <div id="basket-button-responsive">
 
     </div>
 
