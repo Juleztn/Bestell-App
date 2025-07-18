@@ -76,7 +76,10 @@ function showOrderBtn() {
 
 function showBasketBtnResponsive() {
     return `
-        <button onclick="showBasketDialog()" class="basket-btn">Warenkorb ansehen</button>
+        <button onclick="showBasketDialog()" class="basket-btn">
+        <div>Warenkorb ansehen</div>
+        <div class="basket-btn-amount">${showBasketBtnMealAmounts()}</div>
+        </button>
     `;
 }
 

@@ -25,7 +25,7 @@
     }
 
     .basket-btn {
-        display: block;
+        display: flex;
     }
 
     #successfully-ordered {

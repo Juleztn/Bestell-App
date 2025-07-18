@@ -93,6 +93,14 @@ function basketDialogContentShow() {
     }
 }
 
+function showBasketBtnMealAmounts() {
+    let allAmounts = 0;
+    for (let iAmount = 0; iAmount < amounts.length; iAmount++) {
+        allAmounts += amounts[iAmount];
+    }
+    return allAmounts;
+}
+
 function renderBasketDialogTotal() {
     if (deliveryBtnResponsive.classList.contains("delivery")) {
         basketDialogSubtotal.innerHTML = showBasketDialogSubtotalDelivery();
@@ -161,6 +169,9 @@ function moveToBasket(iCat, iMeals) {
     for (let iBasket = 0; iBasket < basket.length; iBasket++) {
         if (basket[iBasket].name === itemToAdd.name) {
             plusMealAmount(iBasket);
+            if (!screenWidth.matches) {
+                basketBtn.innerHTML = showBasketBtnResponsive();
+            }
             return;
         }
     }
