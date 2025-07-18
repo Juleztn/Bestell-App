@@ -2,7 +2,9 @@
     margin: 0;
     font-family: 'Roboto';
     scroll-behavior: smooth;
+    max-width: 1920px;
 }
+
 
 h1 {
     margin-bottom: 16px;

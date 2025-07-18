@@ -27,6 +27,82 @@ function init() {
     applyLocalStorageValue();
 }
 
+function renderDeliveryCosts() {
+    deliveryOrLocation.innerHTML = showDeliveryCosts();
+}
+
+function renderLocation() {
+    deliveryOrLocation.innerHTML = showLocation();
+}
+
+function renderCategories() {
+    for (let iCat = 0; iCat < meals.categories.length; iCat++) {
+        categories.innerHTML += showCategories(iCat);
+    }
+}
+
+function renderMeals() {
+    for (let iCat = 0; iCat < meals.categories.length; iCat++) {
+        mealsContent.innerHTML += showMealCategoriesImg(iCat);
+        for (let iMeals = 0; iMeals < meals.categories[iCat].items.length; iMeals++) {
+            let item = meals.categories[iCat].items[iMeals];
+            mealsContent.innerHTML += showMealsContent(item, iCat, iMeals);
+        }
+    }
+}
+
+function renderBasket() {
+    if (screenWidth.matches) {
+        if (Object.keys(basket).length == 0) {
+            emptyBasket();
+        } else {
+            showBasketContent();
+        }
+    } else {
+        if (Object.keys(basket).length == 0) {
+            basketBtn.innerHTML = "";
+        } else {
+            basketDialogContentShow();
+        }
+    }
+}
+
+function emptyBasket() {
+    basketContent.innerHTML = showEmptyBasket();
+    basketSubtotalTemplate.innerHTML = "";
+    basketTotalTemplate.innerHTML = "";
+    orderBtn.innerHTML = "";
+}
+
+function showBasketContent() {
+    basketContent.innerHTML = "";
+    for (let iBasket = 0; iBasket < basket.length; iBasket++) {
+        basketContent.innerHTML += showBasketMeals(iBasket);
+        basketSubtotalTemplate.innerHTML = showBasketSubtotal();
+        basketTotalTemplate.innerHTML = showBasketTotal();
+        orderBtn.innerHTML = showOrderBtn();
+    }
+}
+
+function basketDialogContentShow() {
+    basketBtn.innerHTML = showBasketBtnResponsive();
+    basketDialogTitle.innerHTML = showBasketDialogTitle();
+    basketDialogContent.innerHTML = "";
+    for (let iBasket = 0; iBasket < basket.length; iBasket++) {
+        basketDialogContent.innerHTML += showBasketDialogContent(iBasket);
+    }
+}
+
+function renderBasketDialogTotal() {
+    if (deliveryBtnResponsive.classList.contains("delivery")) {
+        basketDialogSubtotal.innerHTML = showBasketDialogSubtotalDelivery();
+        basketDialogTotal.innerHTML = showBasketDialogTotalDelivery();
+    } else {
+        basketDialogSubtotal.innerHTML = showBasketDialogSubtotalPickup();
+        basketDialogTotal.innerHTML = showBasketDialogTotalPickup();
+    }
+}
+
 function changeDeliveryBtn() {
     deliveryBtn.classList.add("delivery");
     pickupBtn.classList.remove("delivery");
@@ -36,8 +112,7 @@ function changeDeliveryBtn() {
     if (basket.length > 0 && screenWidth.matches) {
         basketSubtotalTemplate.innerHTML = showBasketSubtotal();
         basketTotalTemplate.innerHTML = showBasketTotal();
-        orderBtn.innerHTML = `
-            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
+        orderBtn.innerHTML = showOrderBtn();
     }
 }
 
@@ -53,8 +128,7 @@ function changePickupBtn() {
     if (basket.length > 0 && screenWidth.matches) {
         basketSubtotalTemplate.innerHTML = showBasketSubtotal();
         basketTotalTemplate.innerHTML = showBasketTotal();
-        orderBtn.innerHTML = `
-            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
+        orderBtn.innerHTML = showOrderBtn();
     }
 }
 
@@ -90,6 +164,10 @@ function moveToBasket(iCat, iMeals) {
             return;
         }
     }
+    pushAndRenderBasket(itemToAdd);
+}
+
+function pushAndRenderBasket(itemToAdd) {
     basket.push(itemToAdd);
     amounts.push(1);
     renderBasket();
@@ -97,7 +175,7 @@ function moveToBasket(iCat, iMeals) {
     updateMealElements();
     mealAmount[basket.length - 1].innerHTML = amounts[basket.length - 1];
     mealPrice[basket.length - 1].innerHTML = itemToAdd.price.toFixed(2);
-    minusTrash[basket.length - 1].innerHTML = `<img src="./assets/icons/trash-solid.svg" alt="">`;
+    minusTrash[basket.length - 1].innerHTML = trashImage();
     saveToLocalStorage();
 }
 
@@ -135,15 +213,14 @@ function plusMealAmount(iBasket) {
     mealAmount[iBasket].innerHTML = amounts[iBasket];
     mealPrice[iBasket].innerHTML = (price * amounts[iBasket]).toFixed(2);
     if (amounts[iBasket] > 1) {
-        minusTrash[iBasket].innerHTML = `<img src="./assets/icons/minus-solid.svg" alt="">`;
+        minusTrash[iBasket].innerHTML = minusImage();
     }
     if (!screenWidth.matches) {
         renderBasketDialogTotal();
     }
     basketSubtotalTemplate.innerHTML = showBasketSubtotal();
     basketTotalTemplate.innerHTML = showBasketTotal();
-    orderBtn.innerHTML = `
-        <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
+    orderBtn.innerHTML = showOrderBtn();
     saveToLocalStorage();
 }
 
@@ -153,7 +230,7 @@ function minusMealAmount(iBasket) {
     mealAmount[iBasket].innerHTML = amounts[iBasket];
     mealPrice[iBasket].innerHTML = (price * amounts[iBasket]).toFixed(2);
     if (amounts[iBasket] == 1) {
-        minusTrash[iBasket].innerHTML = `<img src="./assets/icons/trash-solid.svg" alt="">`;
+        minusTrash[iBasket].innerHTML = trashImage();
     }
     if (amounts[iBasket] == 0) {
         basket.splice(iBasket, 1);
@@ -164,17 +241,24 @@ function minusMealAmount(iBasket) {
         }
         renderBasket();
     }
+    basketRenderScreen();
+    saveToLocalStorage();
+}
+
+function basketTotalAndOrderBtn() {
+    basketSubtotalTemplate.innerHTML = showBasketSubtotal();
+    basketTotalTemplate.innerHTML = showBasketTotal();
+    orderBtn.innerHTML = showOrderBtn();
+}
+
+function basketRenderScreen() {
     if (basket.length > 0 && screenWidth.matches) {
-        basketSubtotalTemplate.innerHTML = showBasketSubtotal();
-        basketTotalTemplate.innerHTML = showBasketTotal();
-        orderBtn.innerHTML = `
-            <button onclick="toggleOverlay(); orderMeals()" class="order-btn"><b>Bestellen (${changeBasketTotal()}€)</b></button>`;
+        basketTotalAndOrderBtn();
     }
     if (!screenWidth.matches && basket.length > 0) {
         renderBasketDialogTotal();
         showBasketDialog();
     }
-    saveToLocalStorage();
 }
 
 function changeBasketSubtotal() {
@@ -192,7 +276,7 @@ function changeBasketTotal() {
             return (subtotalCalculated + 1.99).toFixed(2);
         } else {
             return subtotalCalculated.toFixed(2);
-        } 
+        }
     } else {
         if (deliveryBtnResponsive.classList.contains("delivery")) {
             return (subtotalCalculated + 1.99).toFixed(2);
@@ -203,26 +287,26 @@ function changeBasketTotal() {
 }
 
 function orderMeals() {
-    basket.length = 0;
-    amounts.length = 0;
-    saveToLocalStorage();
-    renderBasket();
+    basketSplice();
     orderDialog.show();
 }
 
 function orderMealsFromDialog() {
-    basket.length = 0;
-    amounts.length = 0;
-    saveToLocalStorage();
-    renderBasket();
+    basketSplice();
     basketDialog.close();
     orderDialog.show();
 }
 
+function basketSplice() {
+    basket.length = 0;
+    amounts.length = 0;
+    saveToLocalStorage();
+    renderBasket();
+}
+
 function showBasketDialog() {
     basketDialog.show();
-    basketBtn.innerHTML = `
-        <button onclick="orderMealsFromDialog(); toggleOverlay()" class="basket-btn">Bestellen ${changeBasketTotal()} €</button>`;
+    basketBtn.innerHTML = showOrderBtnResponsive();
 }
 
 function closeDialog() {
@@ -231,8 +315,7 @@ function closeDialog() {
 
 function closeBasketDialog() {
     basketDialog.close();
-    basketBtn.innerHTML = `
-        <button onclick="showBasketDialog()" class="basket-btn">Warenkorb ansehen</button>`;
+    basketBtn.innerHTML = showBasketBtnResponsive();
 }
 
 function toggleOverlay() {
