@@ -186,12 +186,13 @@
     background-image: url(./assets/img/pizzeria-main-img.jpg);
     height: 350px;
     background-size: cover;
+    position: relative;
 }
 
 .pizza-logo {
     width: 80px;
     position: absolute;
-    top: 330px;
+    top: 240px;
     left: 150px;
     border-radius: 16px;
     box-shadow: 4px 4px 15px 0 black, -4px -4px 15px 0 black;
